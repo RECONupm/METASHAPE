@@ -284,10 +284,10 @@ def importar_e57_y_aplicar_delta_y_mascaras():
         print("Operation cancelled (no folder selected).")
         return
 
-    e57_files = sorted(
+    e57_files = sorted([
         f for f in os.listdir(folder)
         if os.path.isfile(os.path.join(folder, f)) and f.lower().endswith(".e57")
-    )
+    ])
     if not e57_files:
         print(f"No .e57 files found in: {folder}")
         return
@@ -317,14 +317,12 @@ def importar_e57_y_aplicar_delta_y_mascaras():
     print(f"E57 files found: {len(e57_files)}")
     print(f"TLS scans in chunk: {len(laser_scans)}\n")
 
-    matched = 0
     for fname in e57_files:
         base = os.path.splitext(fname)[0]
         key = _norm_name(base)
 
         if key not in loaded_by_name:
             continue
-        matched += 1
 
         src = loaded_by_name[key]
         if getattr(src, "transform", None) is None:
@@ -424,9 +422,6 @@ def importar_e57_y_aplicar_delta_y_mascaras():
 
         print("=" * 90)
 
-    if matched == 0:
-        print("No .e57 filenames matched existing TLS station labels in this chunk.")
 
-
-if __name__ == "__main__":
-    importar_e57_y_aplicar_delta_y_mascaras()
+# Run
+importar_e57_y_aplicar_delta_y_mascaras()
